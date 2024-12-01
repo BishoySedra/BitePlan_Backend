@@ -34,3 +34,4 @@ export const signUpSchema = Joi.object({
             'any.required': 'Confirm password is required',
         }),
 });
+

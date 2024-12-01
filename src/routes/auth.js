@@ -16,3 +16,4 @@ router.post("/register", validate(authSchemas.signUpSchema), authController.regi
 router.post("/login", authController.login);
 
 export default router;
+
