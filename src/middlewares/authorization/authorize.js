@@ -1,7 +1,7 @@
-import { verifyAccessToken } from "../utils/jwt.js";
-import { createCustomError } from "./errors/customError.js";
-import { sendResponse } from "../utils/response.js";
-import { wrapper } from "../utils/wrapper.js";
+import { verifyAccessToken } from "../../utils/jwt.js";
+import { createCustomError } from "../errors/customError.js";
+import { sendResponse } from "../../utils/response.js";
+import { wrapper } from "../../utils/wrapper.js";
 
 const authorize = async (req, res, next) => {
     wrapper(async (req, res, next) => {
