@@ -1,6 +1,7 @@
 // importing third party modules
 import Express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 // importing custom modules
 import connectDB from './src/db/config.js';
@@ -21,11 +22,11 @@ const app = Express();
 
 // middlewares before routes
 app.use(Express.json());
+app.use(cors());
 
 // Routes
 app.use(`${process.env.BASE_URL}/auth`, authRoutes);
 app.use(`${process.env.BASE_URL}/users`, userRoutes);
-
 
 // middlewares for error handling
 app.use(errorHandler);

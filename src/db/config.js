@@ -1,8 +1,17 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const connectDB = async () => {
     try {
-        await mongoose.connect('mongodb://Bishoy123:Bishoy123@localhost:27017/bitplan', {
+        const mongo_username = process.env.MONGO_USERNAME;
+        const mongo_password = process.env.MONGO_PASSWORD;
+        const mongo_host = process.env.MONGO_HOST;
+        const mongo_db = process.env.MONGO_DB;
+        const mongo_url = `mongodb://${mongo_username}:${mongo_password}@localhost:27017/${mongo_db}`;
+        const local_url = `mongodb+srv://${mongo_username}:${mongo_password}@${mongo_host}/${mongo_db}?retryWrites=true&w=majority`;
+        await mongoose.connect(local_url, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             authSource: 'admin' // Required when using root credentials

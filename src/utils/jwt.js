@@ -19,6 +19,6 @@ export const generateToken = (userData) => {
 export const verifyAccessToken = (token) => {
     const secret = process.env.JWT_SECRET;
     let decoded = jwt.verify(token, secret);
-    console.log("decoded", decoded);
+    // console.log("decoded", decoded);
     return decoded;
 };

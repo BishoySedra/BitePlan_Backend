@@ -19,12 +19,12 @@ const authorize = async (req, res, next) => {
 
         // verify the token
         let token = req.headers.authorization.split(" ")[1];
-        console.log("token", token);
+        // console.log("token", token);
 
         let tokenData;
         try {
             tokenData = jwtOps.verifyAccessToken(token);
-            console.log("tokenData", tokenData);
+            // console.log("tokenData", tokenData);
 
         } catch (err) {
             return sendResponse(res, null, "Error while verifying token!", 400);
@@ -36,7 +36,7 @@ const authorize = async (req, res, next) => {
         const { id } = tokenData;
         req.user = { id };
 
-        console.log("req.user", req.user);
+        // console.log("req.user", req.user);
 
         // call the next middleware
         next();
