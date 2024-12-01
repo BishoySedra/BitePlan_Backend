@@ -1,5 +1,0 @@
-build:
-  docker:
-    web: .
-run:
-  web: docker-compose up
