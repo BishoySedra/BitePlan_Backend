@@ -7,6 +7,7 @@ import connectDB from './src/db/config.js';
 
 // importing routes
 import authRoutes from './src/routes/auth.js';
+import userRoutes from './src/routes/user.js';
 
 // importing error handlers middlewares
 import errorHandler from './src/middlewares/errors/errorHandler.js';
@@ -22,7 +23,8 @@ const app = Express();
 app.use(Express.json());
 
 // Routes
-app.use('/auth', authRoutes);
+app.use(`${process.env.BASE_URL}/auth`, authRoutes);
+app.use(`${process.env.BASE_URL}/users`, userRoutes);
 
 
 // middlewares for error handling

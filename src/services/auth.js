@@ -62,8 +62,7 @@ export const login = async (userData) => {
     }
 
     // generate a token
-    const id = user._id;
-    const token = jwtOps.generateToken(id);
+    const token = jwtOps.generateToken({ id: user._id });
 
     // return the token
     return token;
