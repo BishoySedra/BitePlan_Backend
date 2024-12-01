@@ -1,11 +1,33 @@
+// importing third party modules
 import Express from 'express';
 import dotenv from 'dotenv';
+
+// importing custom modules
 import connectDB from './src/db/config.js';
+
+// importing routes
+import authRoutes from './src/routes/auth.js';
+
+// importing error handlers middlewares
+import errorHandler from './src/middlewares/errors/errorHandler.js';
+import notFoundHandler from './src/middlewares/errors/notFoundHandler.js';
 
 // load environment variables
 dotenv.config();
 
+// instantiate the express app
 const app = Express();
+
+// middlewares before routes
+app.use(Express.json());
+
+// Routes
+app.use('/auth', authRoutes);
+
+
+// middlewares for error handling
+app.use(errorHandler);
+app.use(notFoundHandler);
 
 
 try {
