@@ -5,8 +5,13 @@ import * as jwtOps from "../utils/jwt.js";
 
 export const register = async (userData) => {
 
+    // check if the required fields are present
+    if (!userData.username || !userData.email || !userData.password || !userData.confirmPassword) {
+        throw createCustomError("Please provide all the required fields!", 400, null);
+    }
+
     // get the username, email and password from the request body
-    const { username, email, password } = userData;
+    const { username, email, password, confirmPassword } = userData;
 
     // check if the user already exists
     const foundUser = await User.findOne({ email });
@@ -16,21 +21,23 @@ export const register = async (userData) => {
         throw createCustomError("User already exists!", 400, null);
     }
 
+    // check if the password and confirm password match
+    if (password !== confirmPassword) {
+        throw createCustomError("Passwords do not match!", 400, null);
+    }
+
     // hash the password
     const hashedPassword = await hashingOps.hashPassword(password);
 
     // create a new user
-    const user = new User({
+    const newUser = new User({
         username,
         email,
-        password: hashedPassword,
+        password: hashedPassword
     });
 
-    // save the user to the database
-    await user.save();
-
-    // return the user
-    return user;
+    // save the user
+    const user = await newUser.save();
 };
 
 export const login = async (userData) => {
@@ -53,7 +60,6 @@ export const login = async (userData) => {
     if (!validPassword) {
         throw createCustomError("Invalid Credentials!", 400, null);
     }
-
 
     // generate a token
     const id = user._id;

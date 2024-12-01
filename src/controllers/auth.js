@@ -5,13 +5,13 @@ import { sendResponse } from "../utils/response.js";
 export const register = (req, res, next) => {
     wrapper(async (req, res, next) => {
         // get the username, email and password from the request body
-        const { username, email, password } = req.body;
+        const { username, email, password, confirmPassword } = req.body;
 
         // create a new user
-        const user = await authService.register({ username, email, password });
+        await authService.register({ username, email, password, confirmPassword });
 
         // send the response
-        sendResponse(res, user, "User registered successfully", 201);
+        sendResponse(res, null, "User registered successfully", 201);
 
     })(req, res, next);
 };
