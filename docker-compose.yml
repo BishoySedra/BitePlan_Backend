@@ -11,6 +11,5 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: Bishoy123
       MONGO_INITDB_ROOT_PASSWORD: Bishoy123 # Change this to a strong password
-
 volumes:
   mongodb_data:
