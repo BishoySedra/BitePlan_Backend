@@ -27,7 +27,7 @@ app.use(Express.json());
 app.use(cors());
 
 // Routes
-app.use(`/`, (req, res) => {
+app.use(`${process.env.BASE_URL}/welcome`, (req, res) => {
     sendResponse(res, null, 'Welcome to Recipe App API!', 200);
 });
 app.use(`${process.env.BASE_URL}/auth`, authRoutes);
