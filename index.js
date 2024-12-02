@@ -9,6 +9,7 @@ import connectDB from './src/db/config.js';
 // importing routes
 import authRoutes from './src/routes/auth.js';
 import userRoutes from './src/routes/user.js';
+import recipeRoutes from './src/routes/recipe.js';
 
 // importing error handlers middlewares
 import errorHandler from './src/middlewares/errors/errorHandler.js';
@@ -27,6 +28,7 @@ app.use(cors());
 // Routes
 app.use(`${process.env.BASE_URL}/auth`, authRoutes);
 app.use(`${process.env.BASE_URL}/users`, userRoutes);
+app.use(`${process.env.BASE_URL}/recipes`, recipeRoutes);
 
 // middlewares for error handling
 app.use(errorHandler);

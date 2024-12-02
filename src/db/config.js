@@ -11,11 +11,7 @@ const connectDB = async () => {
         const mongo_db = process.env.MONGO_DB;
         const mongo_url = `mongodb://${mongo_username}:${mongo_password}@localhost:27017/${mongo_db}`;
         const local_url = `mongodb+srv://${mongo_username}:${mongo_password}@${mongo_host}/${mongo_db}?retryWrites=true&w=majority`;
-        await mongoose.connect(local_url, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            authSource: 'admin' // Required when using root credentials
-        });
+        await mongoose.connect(local_url);
         console.log('MongoDB connected successfully!');
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
