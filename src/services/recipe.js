@@ -1,6 +1,37 @@
 import Recipe from "../db/models/recipe.js";
 import { createCustomError } from "../middlewares/errors/customError.js";
 
+// service to get all recipes with optional pagination
+export const getAllRecipes = async (page, limit) => {
+
+    // set the page and limit
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 10;
+
+    // calculate the number of documents to skip
+    const skip = (page - 1) * limit;
+
+    // get all recipes with pagination
+    const recipes = await Recipe.find({}, { __v: 0, created_at: 0, updated_at: 0 }).skip(skip).limit(limit);
+
+    return recipes;
+};
+
+// service to get a recipe by id
+export const getRecipeById = async (recipeId) => {
+
+    // find the recipe by id
+    const recipe = await Recipe.findOne({ _id: recipeId }, { __v: 0, created_at: 0, updated_at: 0 });
+
+    // if the recipe does not exist, throw an error
+    if (!recipe) {
+        throw createCustomError("Recipe not found!", 404, null);
+    }
+
+    return recipe;
+};
+
+// service to create a new recipe
 export const createRecipe = async (userId, recipeData) => {
 
     // create a new recipe
@@ -17,6 +48,7 @@ export const createRecipe = async (userId, recipeData) => {
     return recipe;
 };
 
+// service to update a recipe
 export const updateRecipe = async (recipeId, recipeData) => {
 
     // find the recipe by id
@@ -31,6 +63,7 @@ export const updateRecipe = async (recipeId, recipeData) => {
     await Recipe.findByIdAndUpdate(recipeId, recipeData);
 };
 
+// service to delete a recipe
 export const deleteRecipe = async (recipeId) => {
 
     // find the recipe by id

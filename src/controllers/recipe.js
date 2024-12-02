@@ -2,6 +2,35 @@ import { wrapper } from "../utils/wrapper.js";
 import * as recipeService from "../services/recipe.js";
 import { sendResponse } from "../utils/response.js";
 
+// controller to get all recipes
+export const getAllRecipes = (req, res, next) => {
+    wrapper(async (req, res, next) => {
+
+        // getting the page and limit from the query parameters
+        const { page, limit } = req.query;
+
+        // call the service to get all recipes
+        const recipes = await recipeService.getAllRecipes(page, limit);
+
+        // send the response
+        sendResponse(res, recipes, "Recipes fetched successfully!", 200);
+    })(req, res, next);
+};
+
+// controller to get a recipe by id
+export const getRecipeById = (req, res, next) => {
+    wrapper(async (req, res, next) => {
+        // get the recipe id from the request parameters
+        const { id } = req.params;
+
+        // call the service to get the recipe by id
+        const recipe = await recipeService.getRecipeById(id);
+
+        // send the response
+        sendResponse(res, recipe, "Recipe fetched successfully!", 200);
+    })(req, res, next);
+}
+
 // controller to create a new recipe
 export const createRecipe = (req, res, next) => {
     wrapper(async (req, res, next) => {
