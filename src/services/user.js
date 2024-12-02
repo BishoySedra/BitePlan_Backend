@@ -1,5 +1,6 @@
 import User from "../db/models/user.js";
 import Recipe from "../db/models/recipe.js";
+import Follower from "../db/models/follower.js";
 import { createCustomError } from "../middlewares/errors/customError.js";
 
 // service to get user by id
@@ -66,4 +67,66 @@ export const updateProfile = async (userId, userData) => {
 
     // update the user profile
     await User.findOneAndUpdate({ _id: userId }, { ...userData });
+};
+
+// service to follow a user
+export const followUser = async (userId, followerId) => {
+    // check if the user is trying to follow themselves
+    if (userId === followerId) {
+        throw createCustomError("You cannot follow yourself!", 400, null);
+    }
+
+    // check if the user to be followed exists
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+        throw createCustomError("User not found to be followed!", 404, null);
+    }
+
+    // check if the user is already following the user
+    const follower = await Follower.findOne({ followed_id: userId, follower_id: followerId });
+
+    if (follower) {
+        throw createCustomError("You are already following this user!", 400, null);
+    }
+
+    // follow the user
+    await Follower.create({ followed_id: userId, follower_id: followerId });
+
+    // increment the followers count of the user
+    await User.findByIdAndUpdate({ _id: userId }, { $inc: { followers: 1 } });
+
+    // increment the following count of the follower
+    await User.findByIdAndUpdate({ _id: followerId }, { $inc: { following: 1 } });
+};
+
+// service to unfollow a user
+export const unfollowUser = async (userId, followerId) => {
+    // check if the user is trying to unfollow themselves
+    if (userId === followerId) {
+        throw createCustomError("You cannot unfollow yourself!", 400, null);
+    }
+
+    // check if the user to be unfollowed exists
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+        throw createCustomError("User not found to be unfollowed!", 404, null);
+    }
+
+    // check if the user is following the user
+    const follower = await Follower.findOne({ followed_id: userId, follower_id: followerId });
+
+    if (!follower) {
+        throw createCustomError("You are not following this user!", 400, null);
+    }
+
+    // unfollow the user
+    await Follower.findOneAndDelete({ followed_id: userId, follower_id: followerId });
+
+    // decrement the followers count of the user
+    await User.findByIdAndUpdate({ _id: userId }, { $inc: { followers: -1 } });
+
+    // decrement the following count of the follower
+    await User.findByIdAndUpdate({ _id: followerId }, { $inc: { following: -1 } });
 };

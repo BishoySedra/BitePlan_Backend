@@ -18,5 +18,11 @@ router.get("/profile", userController.getProfile);
 // route to update logged-in user profile
 router.patch("/profile", userController.updateProfile);
 
+// route to follow a user
+router.post("/:userId/follow", userController.followUser);
+
+// route to unfollow a user
+router.delete("/:userId/follow", userController.unfollowUser);
+
 export default router;
 

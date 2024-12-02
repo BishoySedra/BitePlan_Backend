@@ -1,3 +1,4 @@
+import User from "../db/models/user.js";
 import Recipe from "../db/models/recipe.js";
 import { createCustomError } from "../middlewares/errors/customError.js";
 
@@ -43,6 +44,9 @@ export const createRecipe = async (userId, recipeData) => {
     // save the recipe
     const recipe = await newRecipe.save();
 
+    // increment the recipe count of the user
+    await User.findByIdAndUpdate(userId, { $inc: { recipes: 1 } });
+
     // console.log(recipe);
 
     return recipe;
@@ -73,6 +77,9 @@ export const deleteRecipe = async (recipeId) => {
     if (!recipe) {
         throw createCustomError("Recipe not found to be deleted!", 404, null);
     }
+
+    // decrement the recipe count of the user
+    await User.findByIdAndUpdate(recipe.user_id, { $inc: { recipes: -1 } });
 
     // delete the recipe
     await Recipe.findByIdAndDelete(recipeId);

@@ -52,3 +52,29 @@ export const updateProfile = wrapper(async (req, res) => {
     // send the response
     sendResponse(res, null, "User profile updated successfully!", 200);
 });
+
+// controller to follow a user
+export const followUser = wrapper(async (req, res) => {
+    // get the user id and the user to be followed id from the request parameters
+    const { userId } = req.params;
+    const followerId = req.user.id;
+
+    // call the service to follow the user
+    await userService.followUser(userId, followerId);
+
+    // send the response
+    sendResponse(res, null, "User followed successfully!", 200);
+});
+
+// controller to unfollow a user
+export const unfollowUser = wrapper(async (req, res) => {
+    // get the user id and the user to be unfollowed id from the request parameters
+    const { userId } = req.params;
+    const followerId = req.user.id;
+
+    // call the service to unfollow the user
+    await userService.unfollowUser(userId, followerId);
+
+    // send the response
+    sendResponse(res, null, "User unfollowed successfully!", 200);
+});
