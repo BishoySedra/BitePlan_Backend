@@ -5,6 +5,7 @@ import cors from 'cors';
 
 // importing custom modules
 import connectDB from './src/db/config.js';
+import { sendResponse } from './src/utils/response.js';
 
 // importing routes
 import authRoutes from './src/routes/auth.js';
@@ -26,6 +27,9 @@ app.use(Express.json());
 app.use(cors());
 
 // Routes
+app.use(`${process.env.BASE_URL}/`, (req, res) => {
+    sendResponse(res, null, 'Welcome to Recipe App API!', 200);
+});
 app.use(`${process.env.BASE_URL}/auth`, authRoutes);
 app.use(`${process.env.BASE_URL}/users`, userRoutes);
 app.use(`${process.env.BASE_URL}/recipes`, recipeRoutes);
