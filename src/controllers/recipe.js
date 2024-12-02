@@ -76,3 +76,69 @@ export const deleteRecipe = (req, res, next) => {
         sendResponse(res, null, "Recipe deleted successfully!", 200);
     })(req, res, next);
 };
+
+// controller to like a recipe
+export const likeRecipe = (req, res, next) => {
+    wrapper(async (req, res, next) => {
+        // get the recipe id from the request body
+        const { id } = req.params;
+
+        // get the user id from the request object
+        const { id: userId } = req.user;
+
+        // call the service to like the recipe
+        await recipeService.likeRecipe(id, userId);
+
+        // send the response
+        sendResponse(res, null, "Recipe liked successfully!", 200);
+    })(req, res, next);
+};
+
+// controller to unlike a recipe
+export const unlikeRecipe = (req, res, next) => {
+    wrapper(async (req, res, next) => {
+        // get the recipe id from the request body
+        const { id } = req.params;
+
+        // get the user id from the request object
+        const { id: userId } = req.user;
+
+        // call the service to unlike the recipe
+        await recipeService.unlikeRecipe(id, userId);
+
+        // send the response
+        sendResponse(res, null, "Recipe unliked successfully!", 200);
+    })(req, res, next);
+};
+
+// controller to comment on a recipe
+export const commentRecipe = (req, res, next) => {
+    wrapper(async (req, res, next) => {
+        // get the recipe id and comment data from the request body
+        const { id } = req.params;
+        const { comment } = req.body;
+
+        // get the user id from the request object
+        const { id: userId } = req.user;
+
+        // call the service to comment on the recipe
+        await recipeService.commentRecipe(id, userId, comment);
+
+        // send the response
+        sendResponse(res, null, "Comment added successfully!", 200);
+    })(req, res, next);
+};
+
+// controller to get all comments on a specific recipe
+export const getComments = (req, res, next) => {
+    wrapper(async (req, res, next) => {
+        // get the recipe id from the request body
+        const { id } = req.params;
+
+        // call the service to get all comments on the recipe
+        const comments = await recipeService.getComments(id);
+
+        // send the response
+        sendResponse(res, comments, "Comments fetched successfully!", 200);
+    })(req, res, next);
+};

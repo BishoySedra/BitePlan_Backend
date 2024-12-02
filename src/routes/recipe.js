@@ -22,4 +22,16 @@ router.patch("/:id", recipeController.updateRecipe);
 // route to delete a recipe
 router.delete("/:id", recipeController.deleteRecipe);
 
+// route to like a recipe
+router.post("/:id/like", recipeController.likeRecipe);
+
+// route to unlike a recipe
+router.delete("/:id/like", recipeController.unlikeRecipe);
+
+// route to comment on a recipe
+router.post("/:id/comments", recipeController.commentRecipe);
+
+// route to get all comments on a specific recipe
+router.get("/:id/comments", recipeController.getComments);
+
 export default router;
