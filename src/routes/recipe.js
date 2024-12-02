@@ -10,6 +10,12 @@ router.get("/", recipeController.getAllRecipes);
 // route to get a recipe by id
 router.get("/:id", recipeController.getRecipeById);
 
+// route to add a review to a recipe
+router.post("/:id/reviews", recipeController.addReview);
+
+// route to get all reviews of a recipe
+router.get("/:id/reviews", recipeController.getReviews);
+
 // authorize the user
 router.use(authorize);
 

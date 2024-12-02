@@ -31,6 +31,35 @@ export const getRecipeById = (req, res, next) => {
     })(req, res, next);
 }
 
+// controller to add a review to a recipe for not logged in users
+export const addReview = (req, res, next) => {
+    wrapper(async (req, res, next) => {
+        // get the recipe id and review data from the request body
+        const { id } = req.params;
+        const reviewData = req.body;
+
+        // call the service to add a review to the recipe
+        await recipeService.addReview(id, reviewData);
+
+        // send the response
+        sendResponse(res, null, "Review added successfully!", 200);
+    })(req, res, next);
+};
+
+// controller to get all reviews of a recipe
+export const getReviews = (req, res, next) => {
+    wrapper(async (req, res, next) => {
+        // get the recipe id from the request parameters
+        const { id } = req.params;
+
+        // call the service to get all reviews of the recipe
+        const reviews = await recipeService.getReviews(id);
+
+        // send the response
+        sendResponse(res, reviews, "Reviews fetched successfully!", 200);
+    })(req, res, next);
+};
+
 // controller to create a new recipe
 export const createRecipe = (req, res, next) => {
     wrapper(async (req, res, next) => {

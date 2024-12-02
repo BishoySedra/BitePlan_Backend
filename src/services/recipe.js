@@ -2,6 +2,7 @@ import User from "../db/models/user.js";
 import Recipe from "../db/models/recipe.js";
 import Comment from "../db/models/comment.js";
 import Like from "../db/models/like.js";
+import Rating from "../db/models/rating.js";
 
 import { createCustomError } from "../middlewares/errors/customError.js";
 
@@ -33,6 +34,26 @@ export const getRecipeById = async (recipeId) => {
     }
 
     return recipe;
+};
+
+// service to add a review to a recipe for not logged in users
+export const addReview = async (recipeId, reviewData) => {
+    // create a new rate
+    const newRate = new Rating({
+        recipe_id: recipeId,
+        ...reviewData
+    });
+
+    // save the rate
+    await newRate.save();
+};
+
+// service to get all reviews of a recipe
+export const getReviews = async (recipeId) => {
+    // find all reviews of the recipe
+    const reviews = await Rating.find({ recipe_id: recipeId }, { __v: 0, created_at: 0 });
+
+    return reviews;
 };
 
 // service to create a new recipe
