@@ -1,5 +1,29 @@
 import User from "../db/models/user.js";
+import Recipe from "../db/models/recipe.js";
 import { createCustomError } from "../middlewares/errors/customError.js";
+
+// service to get user by id
+export const getUserById = async (userId) => {
+    // find the user by id
+    const user = await User.findOne({ _id: userId }, { password: 0, __v: 0, created_at: 0, updated_at: 0 });
+
+    // if user not found
+    if (!user) {
+        throw createCustomError("User not found!", 404, null);
+    }
+
+    // return the user with the password field removed
+    return user;
+};
+
+// service to get user recipes
+export const getUserRecipes = async (userId) => {
+    // find the recipes posted by the user
+    const recipes = await Recipe.find({ user_id: userId }, { __v: 0, created_at: 0, updated_at: 0 });
+
+    // return the recipes
+    return recipes;
+};
 
 // service to get logged in user profile
 export const getProfile = async (userId) => {
