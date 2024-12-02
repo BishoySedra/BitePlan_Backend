@@ -11,6 +11,7 @@ import { sendResponse } from './src/utils/response.js';
 import authRoutes from './src/routes/auth.js';
 import userRoutes from './src/routes/user.js';
 import recipeRoutes from './src/routes/recipe.js';
+import savedRecipeRoutes from './src/routes/savedRecipe.js';
 
 // importing error handlers middlewares
 import errorHandler from './src/middlewares/errors/errorHandler.js';
@@ -33,6 +34,7 @@ app.use(`${process.env.BASE_URL}/welcome`, (req, res) => {
 app.use(`${process.env.BASE_URL}/auth`, authRoutes);
 app.use(`${process.env.BASE_URL}/users`, userRoutes);
 app.use(`${process.env.BASE_URL}/recipes`, recipeRoutes);
+app.use(`${process.env.BASE_URL}/saved-recipes`, savedRecipeRoutes);
 
 // middlewares for error handling
 app.use(errorHandler);
