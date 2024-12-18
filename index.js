@@ -13,6 +13,7 @@ import userRoutes from './src/routes/user.js';
 import recipeRoutes from './src/routes/recipe.js';
 import savedRecipeRoutes from './src/routes/savedRecipe.js';
 import mealPlanRoutes from './src/routes/mealPlan.js';
+import fileRouter from './src/routes/file.js';
 
 // importing error handlers middlewares
 import errorHandler from './src/middlewares/errors/errorHandler.js';
@@ -37,6 +38,7 @@ app.use(`${process.env.BASE_URL}/users`, userRoutes);
 app.use(`${process.env.BASE_URL}/recipes`, recipeRoutes);
 app.use(`${process.env.BASE_URL}/saved-recipes`, savedRecipeRoutes);
 app.use(`${process.env.BASE_URL}/meal-plans`, mealPlanRoutes);
+app.use(`${process.env.BASE_URL}/files`, fileRouter);
 
 // middlewares for error handling
 app.use(errorHandler);

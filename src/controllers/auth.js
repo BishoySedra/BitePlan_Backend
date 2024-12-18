@@ -28,7 +28,7 @@ export const login = (req, res, next) => {
         const token = await authService.login({ email, password });
 
         // send the response
-        sendResponse(res, { token }, "User logged in successfully", 200);
+        sendResponse(res, token, "User logged in successfully", 200);
 
     })(req, res, next);
 };

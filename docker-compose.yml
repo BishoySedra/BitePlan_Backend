@@ -10,6 +10,7 @@ services:
       - mongodb_data:/data/db # Persist MongoDB data
     environment:
       MONGO_INITDB_ROOT_USERNAME: Bishoy123
-      MONGO_INITDB_ROOT_PASSWORD: Bishoy123 # Change this to a strong password
+      MONGO_INITDB_ROOT_PASSWORD: Bishoy123
+      MONGO_INITDB_DATABASE: biteplan # Set the database where root user will be created
 volumes:
   mongodb_data:
